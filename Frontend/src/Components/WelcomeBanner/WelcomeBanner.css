@@ -1,0 +1,7 @@
+.welcome{
+    height: 100vh;
+    padding-top:90px; 
+    /* width: 100vw; */
+    background: linear-gradient(to right, #fffaf6 0%, #fffaf6 70%, #6D7C67 30%);
+    user-select: none;
+}

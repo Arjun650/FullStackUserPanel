@@ -4,9 +4,9 @@ import { IoIosArrowRoundForward } from 'react-icons/io'
 
 const WelcomeBanner = () => {
     return (
-        <div className="welcome ">
+        <div className="max-w-full welcome">
             {/* Image container */}
-            <div className="absolute  lg:right-[9%] -right-20 top-1/2 transform -translate-y-1/2">
+            <div className="absolute hidden lg:block lg:right-[9%] -right-20 top-1/2 transform -translate-y-1/2">
                 <img src={img} className="w-[90vw] sm:w-[70vw] md:w-[50vw] lg:w-[45vw]" alt="Plant" />
             </div>
 
@@ -17,11 +17,11 @@ const WelcomeBanner = () => {
                         Think Green and Plant <span className="sth text-textSec">Something</span>
                     </h1>
                 </div>
-                <div className="flowerText text-textSec text-lg sm:text-xl md:text-2xl mb-8 px-4 sm:px-8">
+                <div className="px-4 mb-8 text-lg flowerText text-textSec sm:text-xl md:text-2xl sm:px-8">
                     <p>Find your dream plant for your home <br /> decorate with us, and we will make it happen</p>
                 </div>
-                <div className="shop flex justify-center sm:justify-start items-center cursor-pointer">
-                    <IoIosArrowRoundForward className="arrowIcon text-textPri text-3xl sm:text-4xl mr-3" />
+                <div className="flex items-center justify-center cursor-pointer shop sm:justify-start">
+                    <IoIosArrowRoundForward className="mr-3 text-3xl arrowIcon text-textPri sm:text-4xl" />
                     <p className="text-lg sm:text-xl text-textPri">Shop Now</p>
                 </div>
             </div>

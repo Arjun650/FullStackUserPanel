@@ -11,6 +11,9 @@ export default {
         secondary: "#FFF",
         textSec: "#859c7c",
         textPri: "#474747",
+        cardCol: "#e8dcd3",
+        buttonCol: "#6D7C67",
+        background: "#fffaf6"
       },
       fontFamily:{
         custom: ['"Roboto"', "sans-serif"],

@@ -11,8 +11,6 @@ const Cart = () => {
     setIsVisible(true); 
   }
 
-
-
   return (
     <div className="font-bold pt-20 font-custom lg:w-[90%] text-gray-700 min-h-[100vh] lg:max-w-[1200px] mx-auto">
       <div className="mb-10 text-5xl font-thin text-center text-gray-800">
@@ -76,7 +74,7 @@ const Cart = () => {
               {/* Actions */}
               <div className="w-full text-center md:w-1/6">
                 <button
-                  onClick={() => removeFromCart(item.id)}
+                  onClick={() => removeFromCart(item._id)}
                   className="px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-700 text-sm sm:text-base"
                 >
                   Remove
@@ -98,7 +96,7 @@ const Cart = () => {
 
         {/* Checkout Button */}
         <div className="flex justify-center md:justify-end mt-8">
-          <button className="px-4 sm:px-6 py-2 sm:py-3 text-white transition duration-200 bg-blue-500 rounded-lg shadow-md hover:bg-blue-600 text-sm sm:text-base" onClick={handleProceedToCheckout}>
+          <button className="px-4 sm:px-6 py-2 sm:py-3 text-white transition duration-200 bg-buttonCol  rounded-lg shadow-md hover:brightness-75 text-sm sm:text-base" onClick={handleProceedToCheckout}>
             Proceed to Checkout
           </button>
         </div>

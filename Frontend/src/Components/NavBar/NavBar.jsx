@@ -1,17 +1,11 @@
 import { IoEarth } from "react-icons/io5";
-import SearchBar from "../SearchBar/SearchBar";
-import { useState } from "react";
 import { FaCartShopping } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { useCart } from "../CartContext/CartContext";
 
 const NavBar = () => {
-  const [searchQuery, setSearchQuery] = useState("");
   const { cartItems } = useCart(); // Ensure you destructure the cartItems correctly
 
-  const onClearSearch = () => {
-    setSearchQuery("");
-  };
 
   const getProductQuantity = () => {
     return cartItems.reduce((total, item) => total + item.quantity, 0);
@@ -28,11 +22,7 @@ const NavBar = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          <SearchBar
-            value={searchQuery}
-            onChange={({ target }) => setSearchQuery(target.value)}
-            onClearSearch={onClearSearch}
-          />
+   
           <div className="relative text-2xl">
             <Link to="/Cart" className="relative">
               <FaCartShopping className="font-extrabold text-gray-300" />

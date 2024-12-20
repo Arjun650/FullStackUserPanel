@@ -1,10 +1,57 @@
+import { useCart } from "../../Components/CartContext/CartContext";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 // eslint-disable-next-line react/prop-types
-const PlaceOrder = ({isVisible, setIsVisible}) => {
+const PlaceOrder = ({ isVisible, setIsVisible }) => {
+  const { cartItems, subtotal } = useCart();
 
-    const handleClose = () =>{
-        setIsVisible(false); 
+  const handleClose = () => {
+    setIsVisible(false);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+        const formData = new FormData(e.target);
+    const orderData = {
+      firstname: formData.get("firstname"),
+      lastname: formData.get("lastname"),
+      address: formData.get("address"),
+      contact:formData.get("contact"),
+      products: cartItems.map(item => ({
+        productId: item._id,
+        title: item.title,
+        price: item.price,
+        quantity: item.quantity
+      })),
+      finalPrice: subtotal
+    };
+
+    console.log(orderData)
+  
+    try {
+      const response = await fetch("http://localhost:3001/api/order/placeOrder", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderData),
+      });
+  
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || toast.error("Error placing order"));
+        
       }
+      else{
+        toast.success("Order Placed Successfully")
+      }
+      // handle success, e.g., display confirmation or redirect
+    } catch (error) {
+      console.error("Error placing order:", error);
+    }
+  };
+  
 
   return (
     <div className="relative">
@@ -22,7 +69,7 @@ const PlaceOrder = ({isVisible, setIsVisible}) => {
         </button>
 
         {/* Form */}
-        <form className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <h2 className="text-xl font-semibold text-gray-800 mb-2">
             Place Your Order
           </h2>
@@ -63,12 +110,16 @@ const PlaceOrder = ({isVisible, setIsVisible}) => {
           </label>
           <button
             type="submit"
-            className="bg-buttonCol text-white px-4 py-2 rounded hover:bg-darkenss-75"
+            className="bg-buttonCol text-white px-4 py-2 rounded hover:brightness-75"
           >
             Place Order
           </button>
         </form>
       </div>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+      />
     </div>
   );
 };

@@ -2,21 +2,24 @@ import { useState, useEffect } from "react";
 import { FaEye } from "react-icons/fa";
 import { useCart } from "../CartContext/CartContext";
 import axios from "axios";  // Import Axios
+import toast, { Toaster } from 'react-hot-toast';
+
 
 const ShoppingGrid = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [modalData, setModalData] = useState({});
-  const [products, setProducts] = useState([]);  // State to store the fetched products
-  const [loading, setLoading] = useState(true);  // State to manage loading
-  const [error, setError] = useState(null);  // State to manage errors
+  const [products, setProducts] = useState([]); 
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null); 
   const { addToCart, updateQuantity, cartItems } = useCart();
+  
 
   // Fetch products from the backend
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/api/getProduct/getProducts");  // Replace with your actual backend URL
-        setProducts(response.data);  // Set the products data to state
+        const response = await axios.get("http://localhost:3001/api/getProduct/getProducts");
+        setProducts(response.data); 
       } catch (err) {
         setError("Failed to fetch products");
         console.error(err);
@@ -57,7 +60,10 @@ const ShoppingGrid = () => {
             <p className="mt-2 font-semibold text-black">Price: ₹ {modalData.price}</p>
             <button
               className="px-4 py-2 mt-4 text-white bg-black rounded-md"
-              onClick={() => setIsOpen(false)}
+              onClick={() => {
+                
+                setIsOpen(false);
+              }}
             >
               Close
             </button>
@@ -68,7 +74,7 @@ const ShoppingGrid = () => {
       <div className="flex flex-wrap justify-center gap-5">
         {products.map((product) => (
           <div
-            key={product._id}  // Assuming the product has a unique _id field
+            key={product._id} 
             className="flex flex-col items-center w-64 gap-2 p-3 bg-gray-300 rounded-2xl h-96"
           >
             <div
@@ -95,7 +101,10 @@ const ShoppingGrid = () => {
             {getProductQuantity(product._id) === 0 ? (
               <button
                 className="px-4 w-full py-2 mt-2 text-white bg-buttonCol rounded-md"
-                onClick={() => addToCart(product)}
+                onClick={() => {
+                  toast.success("product added to cart");
+                  addToCart(product);
+                }}
               >
                 Add to Cart
               </button>
@@ -121,6 +130,10 @@ const ShoppingGrid = () => {
           </div>
         ))}
       </div>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+      />
     </div>
   );
 };

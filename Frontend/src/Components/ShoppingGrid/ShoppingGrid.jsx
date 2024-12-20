@@ -1,40 +1,46 @@
-import { useState } from "react";
-import img from "../../assets/img4.png";
+import { useState, useEffect } from "react";
 import { FaEye } from "react-icons/fa";
 import { useCart } from "../CartContext/CartContext";
+import axios from "axios";  // Import Axios
 
 const ShoppingGrid = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [modalData, setModalData] = useState({});
+  const [products, setProducts] = useState([]);  // State to store the fetched products
+  const [loading, setLoading] = useState(true);  // State to manage loading
+  const [error, setError] = useState(null);  // State to manage errors
   const { addToCart, updateQuantity, cartItems } = useCart();
+
+  // Fetch products from the backend
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get("http://localhost:3001/api/getProduct/getProducts");  // Replace with your actual backend URL
+        setProducts(response.data);  // Set the products data to state
+      } catch (err) {
+        setError("Failed to fetch products");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const openModal = (details) => {
     setModalData(details);
     setIsOpen(true);
   };
 
-  const products = [
-    {
-      id: 1,
-      img: img,
-      title: "Beautiful Flower",
-      description: "This is a beautiful flower.",
-      price: 1000,
-    },
-    {
-      id: 2,
-      img: img,
-      title: "Beautiful Flower",
-      description: "This is a beautiful flower.",
-      price: 1000,
-    },
-    // Add more products...
-  ];
-
   const getProductQuantity = (id) => {
-    const product = cartItems.find((item) => item.id === id);
+    const product = cartItems.find((item) => item._id === id);
     return product ? product.quantity : 0;
   };
+
+  // Loading and error handling
+  if (loading) return <p>Loading products...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <div className="font-bold font-custom lg:w-[90%] text-gray-700 h-[100vh] lg:max-w-[2500px] mt-10 z-0 mx-auto relative">
@@ -62,7 +68,7 @@ const ShoppingGrid = () => {
       <div className="flex flex-wrap justify-center gap-5">
         {products.map((product) => (
           <div
-            key={product.id}
+            key={product._id}  // Assuming the product has a unique _id field
             className="flex flex-col items-center w-64 gap-2 p-3 bg-gray-300 rounded-2xl h-96"
           >
             <div
@@ -72,7 +78,7 @@ const ShoppingGrid = () => {
               <img
                 src={product.img}
                 alt={product.title}
-                className="group-hover:brightness-75"
+                className="group-hover:brightness-75 w-full h-full object-contain"
               />
               <div className="absolute inset-0 flex items-center justify-center transition duration-300 opacity-0 group-hover:opacity-100">
                 <FaEye className="text-4xl text-black" />
@@ -86,7 +92,7 @@ const ShoppingGrid = () => {
               <p>₹ {product.price}</p>
             </div>
 
-            {getProductQuantity(product.id) === 0 ? (
+            {getProductQuantity(product._id) === 0 ? (
               <button
                 className="px-4 w-full py-2 mt-2 text-white bg-buttonCol rounded-md"
                 onClick={() => addToCart(product)}
@@ -97,16 +103,16 @@ const ShoppingGrid = () => {
               <div className="flex items-center justify-between mt-2 space-x-2">
                 <button
                   className="px-3 py-2 text-white bg-red-500 rounded-md"
-                  onClick={() => updateQuantity(product.id, -1)}
+                  onClick={() => updateQuantity(product._id, -1)}
                 >
                   -
                 </button>
                 <span className="px-4 py-2 bg-gray-200 rounded-md">
-                  {getProductQuantity(product.id)}
+                  {getProductQuantity(product._id)}
                 </span>
                 <button
                   className="px-3 py-2 text-white bg-green-500 rounded-md"
-                  onClick={() => updateQuantity(product.id, 1)}
+                  onClick={() => updateQuantity(product._id, 1)}
                 >
                   +
                 </button>

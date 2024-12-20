@@ -31,7 +31,7 @@ const Cart = () => {
         <div className="mt-4 divide-y divide-gray-200">
           {cartItems.map((item) => (
             <div
-              key={item.id}
+              key={item._id}
               className="flex flex-col md:flex-row items-center justify-between py-4"
             >
               {/* Product Info */}
@@ -52,7 +52,7 @@ const Cart = () => {
               {/* Quantity */}
               <div className="flex items-center justify-center w-full mb-2 text-center md:w-1/6 md:mb-0">
                 <button
-                  onClick={() => updateQuantity(item.id, -1)}
+                  onClick={() => updateQuantity(item._id, -1)}
                   className="px-2 py-1 text-white bg-red-500 rounded-md hover:bg-red-600"
                 >
                   -
@@ -61,7 +61,7 @@ const Cart = () => {
                   {item.quantity}
                 </span>
                 <button
-                  onClick={() => updateQuantity(item.id, 1)}
+                  onClick={() => updateQuantity(item._id, 1)}
                   className="px-2 py-1 text-white bg-green-500 rounded-md hover:bg-green-600"
                 >
                   +

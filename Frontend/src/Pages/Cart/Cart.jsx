@@ -80,7 +80,7 @@ const Cart = () => {
               {/* Actions */}
               <div className="w-full text-center md:w-1/6">
                 <button
-                  onClick={() => removeFromCart(item._id)}
+                  onClick={() => {removeFromCart(item._id), toast.success("Item Removed Successfully") }}
                   className="px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-700 text-sm sm:text-base"
                 >
                   Remove

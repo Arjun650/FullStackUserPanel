@@ -26,8 +26,6 @@ const PlaceOrder = ({ isVisible, setIsVisible }) => {
       })),
       finalPrice: subtotal
     };
-
-    console.log(orderData)
   
     try {
       const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/order/placeOrder`, {

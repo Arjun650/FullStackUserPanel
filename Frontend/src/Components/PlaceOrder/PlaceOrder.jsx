@@ -30,7 +30,7 @@ const PlaceOrder = ({ isVisible, setIsVisible }) => {
     console.log(orderData)
   
     try {
-      const response = await fetch("http://localhost:3001/api/order/placeOrder", {
+      const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/order/placeOrder`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

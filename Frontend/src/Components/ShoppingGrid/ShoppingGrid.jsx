@@ -18,7 +18,7 @@ const ShoppingGrid = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/api/getProduct/getProducts");
+        const response = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/getProduct/getProducts`);
         setProducts(response.data); 
       } catch (err) {
         setError("Failed to fetch products");

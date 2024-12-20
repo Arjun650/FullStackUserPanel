@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useCart } from "../../Components/CartContext/CartContext";
 import PlaceOrder from "../../Components/PlaceOrder/PlaceOrder";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 const Cart = () => {
   const { cartItems, updateQuantity, removeFromCart, subtotal } = useCart();
@@ -10,6 +12,10 @@ const Cart = () => {
   const handleProceedToCheckout = () =>{
     setIsVisible(true); 
   }
+
+  const getProductQuantity = () => {
+    return cartItems.reduce((total, item) => total + item.quantity, 0);
+  };
 
   return (
     <div className="font-bold pt-20 font-custom lg:w-[90%] text-gray-700 min-h-[100vh] lg:max-w-[1200px] mx-auto">
@@ -96,12 +102,24 @@ const Cart = () => {
 
         {/* Checkout Button */}
         <div className="flex justify-center md:justify-end mt-8">
-          <button className="px-4 sm:px-6 py-2 sm:py-3 text-white transition duration-200 bg-buttonCol  rounded-lg shadow-md hover:brightness-75 text-sm sm:text-base" onClick={handleProceedToCheckout}>
+          <button className="px-4 sm:px-6 py-2 sm:py-3 text-white transition duration-200 bg-buttonCol  rounded-lg shadow-md hover:brightness-75 text-sm sm:text-base" onClick={() => {
+            const amount = getProductQuantity(); 
+            if(amount === 0){
+              toast.error("Add Product to Checkout") 
+            }
+            else{
+              handleProceedToCheckout(); 
+            }
+          }}>
             Proceed to Checkout
           </button>
         </div>
       </div>
       <PlaceOrder isVisible={isVisible} setIsVisible = {setIsVisible}/>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+      />
     </div>
   );
 };
